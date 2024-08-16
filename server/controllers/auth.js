@@ -2,16 +2,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-// REGISTER USER
-
+/* REGISTER USER */
 export const register = async (req, res) => {
   try {
     const {
-      firstNamem,
+      firstName,
       lastName,
       email,
       password,
-      picture,
+      picturePath,
       friends,
       location,
       occupation,
@@ -21,16 +20,16 @@ export const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      firstNamem,
+      firstName,
       lastName,
       email,
       password: passwordHash,
-      picture,
+      picturePath,
       friends,
       location,
       occupation,
       viewedProfile: Math.floor(Math.random() * 10000),
-      impression: Math.floor(Math.random() * 10000),
+      impressions: Math.floor(Math.random() * 10000),
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
@@ -39,8 +38,7 @@ export const register = async (req, res) => {
   }
 };
 
-//LOG IN
-
+/* LOGGING IN */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
